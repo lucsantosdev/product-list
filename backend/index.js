@@ -40,6 +40,22 @@ app.post('/products', async(req, res) => {
     }
 })
 
+// route (http) for get all products from database
+
+app.get('/products', async (req, res) => {
+    try {
+        const products = await Product.find({})
+        // return res.status(200).json(products) -> for "standard" list
+        return res.status(200).json({
+            count: products.length,
+            data: products
+        })
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send({ message: err.message })
+    }
+})
+
 // database connection
 mongoose
     .connect('mongodb://localhost:27017/product-list')
