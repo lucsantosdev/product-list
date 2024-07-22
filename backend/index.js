@@ -41,7 +41,6 @@ app.post('/products', async(req, res) => {
 })
 
 // route (http) for get all products from database
-
 app.get('/products', async (req, res) => {
     try {
         const products = await Product.find({})
@@ -50,6 +49,18 @@ app.get('/products', async (req, res) => {
             count: products.length,
             data: products
         })
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send({ message: err.message })
+    }
+})
+
+// route (http) for get one product from database by id
+app.get('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await Product.findById(id)
+        return res.status(200).json(product)
     } catch (err) {
         console.log(err.message)
         res.status(500).send({ message: err.message })
