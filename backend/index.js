@@ -67,6 +67,35 @@ app.get('/products/:id', async (req, res) => {
     }
 })
 
+// route for update a product
+app.put('/products/:id', async(req, res) => {
+    try {
+        if (
+            !req.body.product ||
+            !req.body.description ||
+            !req.body.price
+        ) {
+            return res.status(400).send({
+                message: 'Send all required fields: product, description, price'
+            })
+        }
+
+        const { id } = req.params
+
+        const result = await Product.findByIdAndUpdate(id, req.body)
+
+        if (!result) {
+            return res.status(400).json({ message: 'Product not found' })
+        }
+
+        return res.status(200).send({ message: 'Product updated succesfully' })
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send({ message: err.message })
+    }
+})
+
 // database connection
 mongoose
     .connect('mongodb://localhost:27017/product-list')
