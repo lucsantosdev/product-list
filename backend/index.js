@@ -96,6 +96,25 @@ app.put('/products/:id', async(req, res) => {
     }
 })
 
+// route for delete a product
+app.delete('/products/:id', async(req, res) => {
+    try {
+        const { id } = req.params
+
+        const result = await Product.findByIdAndDelete(id)
+
+        if (!result) {
+            return res.status(400).json({ message: 'Product not found' })
+        }
+
+        return res.status(200).send({ message: 'Product deleted succesfully' })
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send({ message: err.message })
+    }
+})
+
 // database connection
 mongoose
     .connect('mongodb://localhost:27017/product-list')
