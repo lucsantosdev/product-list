@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const EditProduct = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [Type, setType] = useState('')
+    const [type, setType] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const {id} = useParams()
