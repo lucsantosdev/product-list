@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom'
-import { PiProductOpenTextLight } from 'react-icons/pi'
-import { BiUserCircle } from 'react-icons/bi'
+import { PiBookOpenTextLight } from 'react-icons/pi'
+import { BiUserCircle, BiShow} from 'react-icons/bi'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BsInfoCircle } from 'react-icons/bs'
 import { MdOutlineDelete } from 'react-icons/md'
+import { useState } from 'react'
+import ProductModal from './ProductModal'
 
 const ProductSingleCard = ({product}) => {
+    cont [showModal, setShowModal] = useState(false)
     return (
         <div
                   key={product._id}
@@ -16,7 +19,7 @@ const ProductSingleCard = ({product}) => {
                     </h2>
                     <h4 className='my-2 text-gray-500'>{product._id}</h4>
                     <div className='flex justify-start items-center gap-x-2'>
-                        <PiProductOpenTextLight className='text-red-300 text-2xl' />
+                        <PiBookOpenTextLight className='text-red-300 text-2xl' />
                         <h2 className='my-1'>{product.name}</h2>
                     </div>
                     <div className='flex justify-start items-center gap-x-2'>
@@ -24,6 +27,10 @@ const ProductSingleCard = ({product}) => {
                         <h2 className='my-1'>{product.type}</h2>
                     </div>
                     <div className='flex justify-between items-center gap-x-2 mt-4 p-4'>
+                        <BiShow 
+                          className='text-3xl text-blue-800 hover:text-black cursor-pointer'
+                          onClick={() => setShowModal(true)}
+                        />
                         <Link to={`/products/details/${product._id}`}>
                           <BsInfoCircle className='text-2xl text-green-800 hover:text-black' />
                         </Link> to={`/products/edit/${product._id}`}
@@ -34,6 +41,11 @@ const ProductSingleCard = ({product}) => {
                           <MdOutlineDelete className='text-2xl text-red-600 hover:text-black' />
                         </Link>
                     </div>
+                    {
+                        showModal && (
+                            <ProductModal product={product} onClose={() => setShowModal(false)} />
+                        )
+                    }
                 </div>
     )
 }
