@@ -3,7 +3,7 @@ import axios from "axios";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
-
+import { useSnackbar } from "notistack";
 
 const CreateProducts = () => {
     const [name, setName] = useState('')
@@ -11,6 +11,7 @@ const CreateProducts = () => {
     const [Type, setType] = useState('')
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
     const handleSaveProduct = () => {
         const data = {
             name,
@@ -22,11 +23,13 @@ const CreateProducts = () => {
         .post("http://localhost:5555/products", data)
         .then(() => {
             setLoading(false)
+            enqueueSnackbar("Product Created Successfully", { variant: "success" })
             navigate("/")
         })
         .catch((error) => {
             setLoading(false)
-            alert("An error happened. Please check console")
+            // alert("An error happened. Please check console")
+            enqueueSnackbar('Error', { variant: "error" })
             console.log(error)
         })
     }
